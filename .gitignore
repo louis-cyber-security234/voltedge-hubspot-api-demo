@@ -1,0 +1,23 @@
+# Environment and secrets
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Local machine files
+.DS_Store
+Thumbs.db
+
+# Node/npm
+node_modules/
+npm-debug.log*
+
+# Temporary exports
+*.tmp
+*.bak
+
+# Do not commit raw client data
+client-data/
+raw-exports/
