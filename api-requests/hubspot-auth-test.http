@@ -1,0 +1,24 @@
+### HubSpot Auth Test - Contact Search
+# Use with VS Code REST Client or similar tools.
+# Replace {{HUBSPOT_PRIVATE_APP_TOKEN}} locally only.
+# Do not commit real tokens.
+
+POST https://api.hubapi.com/crm/v3/objects/contacts/search
+Authorization: Bearer {{HUBSPOT_PRIVATE_APP_TOKEN}}
+Content-Type: application/json
+
+{
+  "filterGroups": [
+    {
+      "filters": [
+        {
+          "propertyName": "email",
+          "operator": "EQ",
+          "value": "sarah.jones@meridianrail.co.uk"
+        }
+      ]
+    }
+  ],
+  "properties": ["email", "firstname", "lastname", "lifecyclestage", "createdate", "lastmodifieddate"],
+  "limit": 1
+}
