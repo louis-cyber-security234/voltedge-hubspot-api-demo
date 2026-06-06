@@ -1,0 +1,61 @@
+### HubSpot Read Test - Contact Search
+# Use with VS Code REST Client or a similar HTTP client.
+# Replace placeholders locally only. Do not commit real tokens.
+
+POST https://api.hubapi.com/crm/v3/objects/contacts/search
+Authorization: Bearer {{HUBSPOT_PRIVATE_APP_TOKEN}}
+Content-Type: application/json
+
+{
+  "filterGroups": [
+    {
+      "filters": [
+        {
+          "propertyName": "email",
+          "operator": "EQ",
+          "value": "{{HUBSPOT_SAMPLE_EMAIL}}"
+        }
+      ]
+    }
+  ],
+  "properties": [
+    "email",
+    "firstname",
+    "lastname",
+    "lifecyclestage",
+    "company",
+    "createdate",
+    "lastmodifieddate"
+  ],
+  "limit": 1
+}
+
+### HubSpot Read Test - Company Search
+# Search company by domain. This mirrors the dedupe pattern used in the RevOps demo.
+
+POST https://api.hubapi.com/crm/v3/objects/companies/search
+Authorization: Bearer {{HUBSPOT_PRIVATE_APP_TOKEN}}
+Content-Type: application/json
+
+{
+  "filterGroups": [
+    {
+      "filters": [
+        {
+          "propertyName": "domain",
+          "operator": "EQ",
+          "value": "{{HUBSPOT_SAMPLE_COMPANY_DOMAIN}}"
+        }
+      ]
+    }
+  ],
+  "properties": [
+    "name",
+    "domain",
+    "industry",
+    "lifecyclestage",
+    "createdate",
+    "hs_lastmodifieddate"
+  ],
+  "limit": 1
+}
