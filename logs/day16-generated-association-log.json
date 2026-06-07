@@ -1,7 +1,7 @@
 {
   "run_name": "Day 16 - API Deal and Association Logic Demo",
-  "generated_at": "2026-06-07T09:23:28.438Z",
-  "input_file": "/mnt/data/voltedge-day16-api-deal-association-patch/data/day16-opportunity-input.json",
+  "generated_at": "2026-06-07T09:26:39.780Z",
+  "input_file": "/Users/louismoyo/Downloads/voltedge-revops-demo/data/day16-opportunity-input.json",
   "summary": {
     "total_records": 6,
     "ready_for_deal_upsert": 4,
