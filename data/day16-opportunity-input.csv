@@ -1,0 +1,7 @@
+external_opportunity_id,deal_name,amount,currency,pipeline,source_stage,dealstage,close_date,contact_email,company_name,company_domain,source_system
+OPP-2001,Meridian Rail - Licence Optimisation Pilot,12000,GBP,default,qualified_opportunity,appointmentscheduled,2026-07-31,sarah.jones@meridianrail.co.uk,Meridian Rail Group,meridianrail.co.uk,day16_mock_source
+OPP-2002,VoltEdge Systems - RevOps Automation Rollout,25000,USD,default,proposal_sent,presentationscheduled,2026-08-15,david.chen@voltedge.example,VoltEdge Systems,voltedge.example,day16_mock_source
+OPP-2003,Meridian Rail - Licence Optimisation Pilot,15000,GBP,default,proposal_sent,presentationscheduled,2026-08-10,sarah.jones@meridianrail.co.uk,Meridian Rail Group,meridianrail.co.uk,day16_mock_source
+OPP-2004,No Contact Opportunity,9000,GBP,default,qualified_opportunity,appointmentscheduled,2026-09-01,,No Contact Ltd,nocontact.example,day16_mock_source
+OPP-2005,Missing Domain Opportunity,6000,GBP,default,qualified_opportunity,appointmentscheduled,2026-09-10,missing.domain@example.com,Missing Domain Ltd,,day16_mock_source
+OPP-2006,Closed Won Revenue Feedback Deal,18000,GBP,default,closed_won,closedwon,2026-06-30,revenue.owner@meridianrail.co.uk,Meridian Rail Group,meridianrail.co.uk,day16_mock_source

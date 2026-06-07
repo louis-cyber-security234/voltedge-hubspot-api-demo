@@ -1,0 +1,68 @@
+### Day 16 - HubSpot Deal and Association API Pattern
+# Use with VS Code REST Client or similar tools.
+# Replace {{HUBSPOT_PRIVATE_APP_TOKEN}} locally only.
+# Do not commit real tokens.
+
+### Search deal by custom dedupe key
+POST https://api.hubapi.com/crm/v3/objects/deals/search
+Authorization: Bearer {{HUBSPOT_PRIVATE_APP_TOKEN}}
+Content-Type: application/json
+
+{
+  "filterGroups": [
+    {
+      "filters": [
+        {
+          "propertyName": "ve_deal_dedupe_key",
+          "operator": "EQ",
+          "value": "external_id:opp-2001"
+        }
+      ]
+    }
+  ],
+  "properties": ["dealname", "amount", "dealstage", "pipeline", "closedate", "ve_deal_dedupe_key"],
+  "limit": 1
+}
+
+### Create deal if not found
+POST https://api.hubapi.com/crm/v3/objects/deals
+Authorization: Bearer {{HUBSPOT_PRIVATE_APP_TOKEN}}
+Content-Type: application/json
+
+{
+  "properties": {
+    "dealname": "Meridian Rail - Licence Optimisation Pilot",
+    "amount": "12000",
+    "dealstage": "appointmentscheduled",
+    "pipeline": "default",
+    "closedate": "2026-07-31",
+    "deal_currency_code": "GBP",
+    "ve_external_opportunity_id": "OPP-2001",
+    "ve_deal_dedupe_key": "external_id:opp-2001"
+  }
+}
+
+### Update deal if found
+PATCH https://api.hubapi.com/crm/v3/objects/deals/{{DEAL_ID}}
+Authorization: Bearer {{HUBSPOT_PRIVATE_APP_TOKEN}}
+Content-Type: application/json
+
+{
+  "properties": {
+    "amount": "15000",
+    "dealstage": "presentationscheduled",
+    "closedate": "2026-08-10"
+  }
+}
+
+### Associate contact to company
+PUT https://api.hubapi.com/crm/v4/objects/contacts/{{CONTACT_ID}}/associations/default/companies/{{COMPANY_ID}}
+Authorization: Bearer {{HUBSPOT_PRIVATE_APP_TOKEN}}
+
+### Associate deal to company
+PUT https://api.hubapi.com/crm/v4/objects/deals/{{DEAL_ID}}/associations/default/companies/{{COMPANY_ID}}
+Authorization: Bearer {{HUBSPOT_PRIVATE_APP_TOKEN}}
+
+### Associate deal to contact
+PUT https://api.hubapi.com/crm/v4/objects/deals/{{DEAL_ID}}/associations/default/contacts/{{CONTACT_ID}}
+Authorization: Bearer {{HUBSPOT_PRIVATE_APP_TOKEN}}

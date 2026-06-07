@@ -1,0 +1,411 @@
+{
+  "run_name": "Day 16 - API Deal and Association Logic Demo",
+  "generated_at": "2026-06-07T09:23:28.438Z",
+  "input_file": "/mnt/data/voltedge-day16-api-deal-association-patch/data/day16-opportunity-input.json",
+  "summary": {
+    "total_records": 6,
+    "ready_for_deal_upsert": 4,
+    "failed_validation": 2,
+    "duplicate_deal_records": 0,
+    "duplicate_contact_company_associations": 1,
+    "closed_won_revenue_records": 1
+  },
+  "results": [
+    {
+      "index": 0,
+      "external_opportunity_id": "OPP-2001",
+      "status": "ready_for_deal_upsert",
+      "errors": [],
+      "duplicate_flags": {
+        "duplicate_deal_in_batch": false,
+        "duplicate_contact_company_association_in_batch": false
+      },
+      "deal_key": "external_id:opp-2001",
+      "contact_key": "sarah.jones@meridianrail.co.uk",
+      "company_key": "meridianrail.co.uk",
+      "stage_rules": {
+        "source_stage": "qualified_opportunity",
+        "dealstage": "appointmentscheduled",
+        "recommended_contact_lifecycle_stage": "opportunity",
+        "commercial_signal": "pipeline"
+      },
+      "action_plan": [
+        {
+          "step": 1,
+          "object": "deal",
+          "lookup_property": "ve_deal_dedupe_key",
+          "lookup_value": "external_id:opp-2001",
+          "action": "create_or_update_deal_by_dedupe_key",
+          "payload": {
+            "properties": {
+              "dealname": "Meridian Rail - Licence Optimisation Pilot",
+              "amount": 12000,
+              "dealstage": "appointmentscheduled",
+              "pipeline": "default",
+              "closedate": "2026-07-31",
+              "deal_currency_code": "GBP",
+              "ve_external_opportunity_id": "OPP-2001",
+              "ve_source_system": "day16_mock_source",
+              "ve_deal_dedupe_key": "external_id:opp-2001"
+            }
+          }
+        },
+        {
+          "step": 2,
+          "object": "association",
+          "association_type": "contact_to_company",
+          "from_object": "contact",
+          "from_lookup_property": "email",
+          "from_lookup_value": "sarah.jones@meridianrail.co.uk",
+          "to_object": "company",
+          "to_lookup_property": "domain",
+          "to_lookup_value": "meridianrail.co.uk",
+          "action": "associate_contact_to_company_after_ids_are_known"
+        },
+        {
+          "step": 3,
+          "object": "association",
+          "association_type": "deal_to_company",
+          "from_object": "deal",
+          "from_lookup_property": "ve_deal_dedupe_key",
+          "from_lookup_value": "external_id:opp-2001",
+          "to_object": "company",
+          "to_lookup_property": "domain",
+          "to_lookup_value": "meridianrail.co.uk",
+          "action": "associate_deal_to_company_after_ids_are_known"
+        },
+        {
+          "step": 4,
+          "object": "association",
+          "association_type": "deal_to_contact",
+          "from_object": "deal",
+          "from_lookup_property": "ve_deal_dedupe_key",
+          "from_lookup_value": "external_id:opp-2001",
+          "to_object": "contact",
+          "to_lookup_property": "email",
+          "to_lookup_value": "sarah.jones@meridianrail.co.uk",
+          "action": "associate_deal_to_contact_after_ids_are_known"
+        },
+        {
+          "step": 5,
+          "object": "contact",
+          "lookup_property": "email",
+          "lookup_value": "sarah.jones@meridianrail.co.uk",
+          "action": "apply_lifecycle_stage_rule_if_allowed",
+          "payload": {
+            "properties": {
+              "lifecyclestage": "opportunity"
+            }
+          },
+          "guardrail": "Only move lifecycle stage forward. Do not downgrade customer/opportunity stages without business approval."
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "external_opportunity_id": "OPP-2002",
+      "status": "ready_for_deal_upsert",
+      "errors": [],
+      "duplicate_flags": {
+        "duplicate_deal_in_batch": false,
+        "duplicate_contact_company_association_in_batch": false
+      },
+      "deal_key": "external_id:opp-2002",
+      "contact_key": "david.chen@voltedge.example",
+      "company_key": "voltedge.example",
+      "stage_rules": {
+        "source_stage": "proposal_sent",
+        "dealstage": "presentationscheduled",
+        "recommended_contact_lifecycle_stage": "opportunity",
+        "commercial_signal": "pipeline"
+      },
+      "action_plan": [
+        {
+          "step": 1,
+          "object": "deal",
+          "lookup_property": "ve_deal_dedupe_key",
+          "lookup_value": "external_id:opp-2002",
+          "action": "create_or_update_deal_by_dedupe_key",
+          "payload": {
+            "properties": {
+              "dealname": "VoltEdge Systems - RevOps Automation Rollout",
+              "amount": 25000,
+              "dealstage": "presentationscheduled",
+              "pipeline": "default",
+              "closedate": "2026-08-15",
+              "deal_currency_code": "USD",
+              "ve_external_opportunity_id": "OPP-2002",
+              "ve_source_system": "day16_mock_source",
+              "ve_deal_dedupe_key": "external_id:opp-2002"
+            }
+          }
+        },
+        {
+          "step": 2,
+          "object": "association",
+          "association_type": "contact_to_company",
+          "from_object": "contact",
+          "from_lookup_property": "email",
+          "from_lookup_value": "david.chen@voltedge.example",
+          "to_object": "company",
+          "to_lookup_property": "domain",
+          "to_lookup_value": "voltedge.example",
+          "action": "associate_contact_to_company_after_ids_are_known"
+        },
+        {
+          "step": 3,
+          "object": "association",
+          "association_type": "deal_to_company",
+          "from_object": "deal",
+          "from_lookup_property": "ve_deal_dedupe_key",
+          "from_lookup_value": "external_id:opp-2002",
+          "to_object": "company",
+          "to_lookup_property": "domain",
+          "to_lookup_value": "voltedge.example",
+          "action": "associate_deal_to_company_after_ids_are_known"
+        },
+        {
+          "step": 4,
+          "object": "association",
+          "association_type": "deal_to_contact",
+          "from_object": "deal",
+          "from_lookup_property": "ve_deal_dedupe_key",
+          "from_lookup_value": "external_id:opp-2002",
+          "to_object": "contact",
+          "to_lookup_property": "email",
+          "to_lookup_value": "david.chen@voltedge.example",
+          "action": "associate_deal_to_contact_after_ids_are_known"
+        },
+        {
+          "step": 5,
+          "object": "contact",
+          "lookup_property": "email",
+          "lookup_value": "david.chen@voltedge.example",
+          "action": "apply_lifecycle_stage_rule_if_allowed",
+          "payload": {
+            "properties": {
+              "lifecyclestage": "opportunity"
+            }
+          },
+          "guardrail": "Only move lifecycle stage forward. Do not downgrade customer/opportunity stages without business approval."
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "external_opportunity_id": "OPP-2003",
+      "status": "ready_for_deal_upsert",
+      "errors": [],
+      "duplicate_flags": {
+        "duplicate_deal_in_batch": false,
+        "duplicate_contact_company_association_in_batch": true
+      },
+      "deal_key": "external_id:opp-2003",
+      "contact_key": "sarah.jones@meridianrail.co.uk",
+      "company_key": "meridianrail.co.uk",
+      "stage_rules": {
+        "source_stage": "proposal_sent",
+        "dealstage": "presentationscheduled",
+        "recommended_contact_lifecycle_stage": "opportunity",
+        "commercial_signal": "pipeline"
+      },
+      "action_plan": [
+        {
+          "step": 1,
+          "object": "deal",
+          "lookup_property": "ve_deal_dedupe_key",
+          "lookup_value": "external_id:opp-2003",
+          "action": "create_or_update_deal_by_dedupe_key",
+          "payload": {
+            "properties": {
+              "dealname": "Meridian Rail - Licence Optimisation Pilot",
+              "amount": 15000,
+              "dealstage": "presentationscheduled",
+              "pipeline": "default",
+              "closedate": "2026-08-10",
+              "deal_currency_code": "GBP",
+              "ve_external_opportunity_id": "OPP-2003",
+              "ve_source_system": "day16_mock_source",
+              "ve_deal_dedupe_key": "external_id:opp-2003"
+            }
+          }
+        },
+        {
+          "step": 2,
+          "object": "association",
+          "association_type": "contact_to_company",
+          "from_object": "contact",
+          "from_lookup_property": "email",
+          "from_lookup_value": "sarah.jones@meridianrail.co.uk",
+          "to_object": "company",
+          "to_lookup_property": "domain",
+          "to_lookup_value": "meridianrail.co.uk",
+          "action": "associate_contact_to_company_after_ids_are_known"
+        },
+        {
+          "step": 3,
+          "object": "association",
+          "association_type": "deal_to_company",
+          "from_object": "deal",
+          "from_lookup_property": "ve_deal_dedupe_key",
+          "from_lookup_value": "external_id:opp-2003",
+          "to_object": "company",
+          "to_lookup_property": "domain",
+          "to_lookup_value": "meridianrail.co.uk",
+          "action": "associate_deal_to_company_after_ids_are_known"
+        },
+        {
+          "step": 4,
+          "object": "association",
+          "association_type": "deal_to_contact",
+          "from_object": "deal",
+          "from_lookup_property": "ve_deal_dedupe_key",
+          "from_lookup_value": "external_id:opp-2003",
+          "to_object": "contact",
+          "to_lookup_property": "email",
+          "to_lookup_value": "sarah.jones@meridianrail.co.uk",
+          "action": "associate_deal_to_contact_after_ids_are_known"
+        },
+        {
+          "step": 5,
+          "object": "contact",
+          "lookup_property": "email",
+          "lookup_value": "sarah.jones@meridianrail.co.uk",
+          "action": "apply_lifecycle_stage_rule_if_allowed",
+          "payload": {
+            "properties": {
+              "lifecyclestage": "opportunity"
+            }
+          },
+          "guardrail": "Only move lifecycle stage forward. Do not downgrade customer/opportunity stages without business approval."
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "external_opportunity_id": "OPP-2004",
+      "status": "failed_validation",
+      "errors": [
+        "Missing required field: contact_email"
+      ],
+      "deal_key": "external_id:opp-2004",
+      "contact_key": null,
+      "company_key": "nocontact.example",
+      "stage_rules": {
+        "source_stage": "qualified_opportunity",
+        "dealstage": "appointmentscheduled",
+        "recommended_contact_lifecycle_stage": "opportunity",
+        "commercial_signal": "pipeline"
+      },
+      "action_plan": []
+    },
+    {
+      "index": 4,
+      "external_opportunity_id": "OPP-2005",
+      "status": "failed_validation",
+      "errors": [
+        "Missing required field: company_domain"
+      ],
+      "deal_key": "external_id:opp-2005",
+      "contact_key": "missing.domain@example.com",
+      "company_key": null,
+      "stage_rules": {
+        "source_stage": "qualified_opportunity",
+        "dealstage": "appointmentscheduled",
+        "recommended_contact_lifecycle_stage": "opportunity",
+        "commercial_signal": "pipeline"
+      },
+      "action_plan": []
+    },
+    {
+      "index": 5,
+      "external_opportunity_id": "OPP-2006",
+      "status": "ready_for_deal_upsert",
+      "errors": [],
+      "duplicate_flags": {
+        "duplicate_deal_in_batch": false,
+        "duplicate_contact_company_association_in_batch": false
+      },
+      "deal_key": "external_id:opp-2006",
+      "contact_key": "revenue.owner@meridianrail.co.uk",
+      "company_key": "meridianrail.co.uk",
+      "stage_rules": {
+        "source_stage": "closed_won",
+        "dealstage": "closedwon",
+        "recommended_contact_lifecycle_stage": "customer",
+        "commercial_signal": "revenue"
+      },
+      "action_plan": [
+        {
+          "step": 1,
+          "object": "deal",
+          "lookup_property": "ve_deal_dedupe_key",
+          "lookup_value": "external_id:opp-2006",
+          "action": "create_or_update_deal_by_dedupe_key",
+          "payload": {
+            "properties": {
+              "dealname": "Closed Won Revenue Feedback Deal",
+              "amount": 18000,
+              "dealstage": "closedwon",
+              "pipeline": "default",
+              "closedate": "2026-06-30",
+              "deal_currency_code": "GBP",
+              "ve_external_opportunity_id": "OPP-2006",
+              "ve_source_system": "day16_mock_source",
+              "ve_deal_dedupe_key": "external_id:opp-2006"
+            }
+          }
+        },
+        {
+          "step": 2,
+          "object": "association",
+          "association_type": "contact_to_company",
+          "from_object": "contact",
+          "from_lookup_property": "email",
+          "from_lookup_value": "revenue.owner@meridianrail.co.uk",
+          "to_object": "company",
+          "to_lookup_property": "domain",
+          "to_lookup_value": "meridianrail.co.uk",
+          "action": "associate_contact_to_company_after_ids_are_known"
+        },
+        {
+          "step": 3,
+          "object": "association",
+          "association_type": "deal_to_company",
+          "from_object": "deal",
+          "from_lookup_property": "ve_deal_dedupe_key",
+          "from_lookup_value": "external_id:opp-2006",
+          "to_object": "company",
+          "to_lookup_property": "domain",
+          "to_lookup_value": "meridianrail.co.uk",
+          "action": "associate_deal_to_company_after_ids_are_known"
+        },
+        {
+          "step": 4,
+          "object": "association",
+          "association_type": "deal_to_contact",
+          "from_object": "deal",
+          "from_lookup_property": "ve_deal_dedupe_key",
+          "from_lookup_value": "external_id:opp-2006",
+          "to_object": "contact",
+          "to_lookup_property": "email",
+          "to_lookup_value": "revenue.owner@meridianrail.co.uk",
+          "action": "associate_deal_to_contact_after_ids_are_known"
+        },
+        {
+          "step": 5,
+          "object": "contact",
+          "lookup_property": "email",
+          "lookup_value": "revenue.owner@meridianrail.co.uk",
+          "action": "apply_lifecycle_stage_rule_if_allowed",
+          "payload": {
+            "properties": {
+              "lifecyclestage": "customer"
+            }
+          },
+          "guardrail": "Only move lifecycle stage forward. Do not downgrade customer/opportunity stages without business approval."
+        }
+      ]
+    }
+  ]
+}
