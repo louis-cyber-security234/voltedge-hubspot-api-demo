@@ -1,0 +1,104 @@
+### Day 15 - HubSpot Contact/Company Upsert Pattern
+# Use with VS Code REST Client or similar tools.
+# Replace variables locally only. Do not commit real tokens.
+
+@hubspotToken = {{$dotenv HUBSPOT_PRIVATE_APP_TOKEN}}
+@baseUrl = https://api.hubapi.com
+@email = sarah.jones@meridianrail.co.uk
+@domain = meridianrail.co.uk
+
+### 1. Search contact by email
+POST {{baseUrl}}/crm/v3/objects/contacts/search
+Authorization: Bearer {{hubspotToken}}
+Content-Type: application/json
+
+{
+  "filterGroups": [
+    {
+      "filters": [
+        {
+          "propertyName": "email",
+          "operator": "EQ",
+          "value": "{{email}}"
+        }
+      ]
+    }
+  ],
+  "properties": ["email", "firstname", "lastname", "jobtitle", "lifecyclestage", "lastmodifieddate"],
+  "limit": 1
+}
+
+### 2. Search company by domain
+POST {{baseUrl}}/crm/v3/objects/companies/search
+Authorization: Bearer {{hubspotToken}}
+Content-Type: application/json
+
+{
+  "filterGroups": [
+    {
+      "filters": [
+        {
+          "propertyName": "domain",
+          "operator": "EQ",
+          "value": "{{domain}}"
+        }
+      ]
+    }
+  ],
+  "properties": ["name", "domain", "industry", "lastmodifieddate"],
+  "limit": 1
+}
+
+### 3. Create contact if no contact exists
+POST {{baseUrl}}/crm/v3/objects/contacts
+Authorization: Bearer {{hubspotToken}}
+Content-Type: application/json
+
+{
+  "properties": {
+    "email": "{{email}}",
+    "firstname": "Sarah",
+    "lastname": "Jones",
+    "jobtitle": "Operations Director",
+    "lifecyclestage": "marketingqualifiedlead"
+  }
+}
+
+### 4. Update contact if existing contact ID is known
+# Replace CONTACT_ID locally with the ID returned from the search request.
+PATCH {{baseUrl}}/crm/v3/objects/contacts/CONTACT_ID
+Authorization: Bearer {{hubspotToken}}
+Content-Type: application/json
+
+{
+  "properties": {
+    "jobtitle": "Operations Director - Updated",
+    "lifecyclestage": "salesqualifiedlead"
+  }
+}
+
+### 5. Create company if no company exists
+POST {{baseUrl}}/crm/v3/objects/companies
+Authorization: Bearer {{hubspotToken}}
+Content-Type: application/json
+
+{
+  "properties": {
+    "name": "Meridian Rail Group",
+    "domain": "{{domain}}",
+    "industry": "Rail"
+  }
+}
+
+### 6. Update company if existing company ID is known
+# Replace COMPANY_ID locally with the ID returned from the search request.
+PATCH {{baseUrl}}/crm/v3/objects/companies/COMPANY_ID
+Authorization: Bearer {{hubspotToken}}
+Content-Type: application/json
+
+{
+  "properties": {
+    "name": "Meridian Rail Group",
+    "industry": "Rail"
+  }
+}

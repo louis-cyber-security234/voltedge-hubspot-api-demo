@@ -1,0 +1,195 @@
+{
+  "run_name": "Day 15 - API Upsert Logic Demo",
+  "generated_at": "2026-06-07T08:34:30.675Z",
+  "input_file": "/mnt/data/day15_patch/data/day15-sample-input.json",
+  "summary": {
+    "total_records": 5,
+    "ready_for_upsert": 3,
+    "failed_validation": 2,
+    "duplicate_email_records": 1,
+    "duplicate_domain_records": 1
+  },
+  "results": [
+    {
+      "index": 0,
+      "external_record_id": "VE-1001",
+      "status": "ready_for_upsert",
+      "errors": [],
+      "duplicate_flags": {
+        "duplicate_email_in_batch": false,
+        "duplicate_domain_in_batch": false
+      },
+      "contact_key": "sarah.jones@meridianrail.co.uk",
+      "company_key": "meridianrail.co.uk",
+      "action_plan": [
+        {
+          "step": 1,
+          "object": "company",
+          "lookup_property": "domain",
+          "lookup_value": "meridianrail.co.uk",
+          "action": "create_or_update_company_by_domain",
+          "payload": {
+            "properties": {
+              "name": "Meridian Rail Group",
+              "domain": "meridianrail.co.uk",
+              "industry": "Rail",
+              "ve_source_system": "day15_mock_source"
+            }
+          }
+        },
+        {
+          "step": 2,
+          "object": "contact",
+          "lookup_property": "email",
+          "lookup_value": "sarah.jones@meridianrail.co.uk",
+          "action": "create_or_update_contact_by_email",
+          "payload": {
+            "properties": {
+              "email": "sarah.jones@meridianrail.co.uk",
+              "firstname": "Sarah",
+              "lastname": "Jones",
+              "jobtitle": "Operations Director",
+              "phone": "+44 20 0000 1001",
+              "lifecyclestage": "marketingqualifiedlead",
+              "ve_source_system": "day15_mock_source"
+            }
+          }
+        },
+        {
+          "step": 3,
+          "object": "association",
+          "action": "associate_contact_to_company_after_ids_are_known",
+          "note": "In production, associate the returned contact ID to the returned company ID."
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "external_record_id": "VE-1002",
+      "status": "ready_for_upsert",
+      "errors": [],
+      "duplicate_flags": {
+        "duplicate_email_in_batch": false,
+        "duplicate_domain_in_batch": false
+      },
+      "contact_key": "david.chen@voltedge.example",
+      "company_key": "voltedge.example",
+      "action_plan": [
+        {
+          "step": 1,
+          "object": "company",
+          "lookup_property": "domain",
+          "lookup_value": "voltedge.example",
+          "action": "create_or_update_company_by_domain",
+          "payload": {
+            "properties": {
+              "name": "VoltEdge Systems",
+              "domain": "voltedge.example",
+              "industry": "SaaS",
+              "ve_source_system": "day15_mock_source"
+            }
+          }
+        },
+        {
+          "step": 2,
+          "object": "contact",
+          "lookup_property": "email",
+          "lookup_value": "david.chen@voltedge.example",
+          "action": "create_or_update_contact_by_email",
+          "payload": {
+            "properties": {
+              "email": "david.chen@voltedge.example",
+              "firstname": "David",
+              "lastname": "Chen",
+              "jobtitle": "VP Revenue Operations",
+              "phone": "+1 415 000 1002",
+              "lifecyclestage": "salesqualifiedlead",
+              "ve_source_system": "day15_mock_source"
+            }
+          }
+        },
+        {
+          "step": 3,
+          "object": "association",
+          "action": "associate_contact_to_company_after_ids_are_known",
+          "note": "In production, associate the returned contact ID to the returned company ID."
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "external_record_id": "VE-1003",
+      "status": "ready_for_upsert",
+      "errors": [],
+      "duplicate_flags": {
+        "duplicate_email_in_batch": true,
+        "duplicate_domain_in_batch": true
+      },
+      "contact_key": "sarah.jones@meridianrail.co.uk",
+      "company_key": "meridianrail.co.uk",
+      "action_plan": [
+        {
+          "step": 1,
+          "object": "company",
+          "lookup_property": "domain",
+          "lookup_value": "meridianrail.co.uk",
+          "action": "update_company",
+          "payload": {
+            "properties": {
+              "name": "Meridian Rail Group",
+              "domain": "meridianrail.co.uk",
+              "industry": "Rail",
+              "ve_source_system": "day15_mock_source"
+            }
+          }
+        },
+        {
+          "step": 2,
+          "object": "contact",
+          "lookup_property": "email",
+          "lookup_value": "sarah.jones@meridianrail.co.uk",
+          "action": "update_contact",
+          "payload": {
+            "properties": {
+              "email": "sarah.jones@meridianrail.co.uk",
+              "firstname": "Sarah",
+              "lastname": "Jones",
+              "jobtitle": "Operations Director - Updated",
+              "phone": "+44 20 0000 1001",
+              "lifecyclestage": "salesqualifiedlead",
+              "ve_source_system": "day15_mock_source"
+            }
+          }
+        },
+        {
+          "step": 3,
+          "object": "association",
+          "action": "associate_contact_to_company_after_ids_are_known",
+          "note": "In production, associate the returned contact ID to the returned company ID."
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "external_record_id": "VE-1004",
+      "status": "failed_validation",
+      "errors": [
+        "Missing required field: email"
+      ],
+      "contact_key": null,
+      "company_key": "noemail.example",
+      "action_plan": []
+    },
+    {
+      "index": 4,
+      "external_record_id": "VE-1005",
+      "status": "failed_validation",
+      "errors": [
+        "Missing required field: company_domain"
+      ],
+      "contact_key": "domain.missing@example.com",
+      "company_key": null,
+      "action_plan": []
+    }
+  ]
+}
