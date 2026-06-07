@@ -1,0 +1,41 @@
+### Day 17 - HubSpot-style API Error Handling Pattern
+# This file is documentation/evidence only. Do not commit real tokens.
+# Use with VS Code REST Client or similar tools.
+# Requires environment variable:
+# HUBSPOT_PRIVATE_APP_TOKEN=pat-na1-...
+
+@baseUrl = https://api.hubapi.com
+@token = {{$dotenv HUBSPOT_PRIVATE_APP_TOKEN}}
+
+### Auth/read sanity check
+GET {{baseUrl}}/crm/v3/objects/contacts?limit=1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+### Example search request that should be wrapped in error handling
+POST {{baseUrl}}/crm/v3/objects/contacts/search
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "filterGroups": [
+    {
+      "filters": [
+        {
+          "propertyName": "email",
+          "operator": "EQ",
+          "value": "sarah.jones@meridianrail.co.uk"
+        }
+      ]
+    }
+  ],
+  "properties": ["email", "firstname", "lastname", "lifecyclestage"],
+  "limit": 1
+}
+
+### Error handling notes
+# 400 -> validation / payload review
+# 401/403 -> token or private app scope review
+# 409 -> conflict / dedupe review
+# 429 -> retry after backoff / rate-limit handling
+# 5xx -> transient API failure / retry with max attempts

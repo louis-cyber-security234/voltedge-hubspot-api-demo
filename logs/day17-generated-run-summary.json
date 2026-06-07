@@ -1,0 +1,13 @@
+{
+  "total_records": 8,
+  "success_prepared": 1,
+  "failed_or_queued": 7,
+  "retryable_records": 2,
+  "manual_review_records": 5,
+  "validation_errors": 2,
+  "auth_errors": 1,
+  "rate_limit_errors": 1,
+  "transient_api_errors": 1,
+  "duplicate_conflicts": 1,
+  "association_errors": 1
+}

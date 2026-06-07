@@ -1,0 +1,491 @@
+{
+  "run_name": "Day 17 - API Error Handling and Reconciliation Demo",
+  "generated_at": "2026-06-07T14:38:37.934Z",
+  "input_file": "/mnt/data/day17_patch/data/day17-error-test-input.json",
+  "error_taxonomy": {
+    "VALIDATION_ERROR": "validation_error",
+    "AUTH_ERROR": "auth_error",
+    "RATE_LIMIT_ERROR": "rate_limit_error",
+    "TRANSIENT_API_ERROR": "transient_api_error",
+    "DUPLICATE_CONFLICT": "duplicate_conflict",
+    "ASSOCIATION_ERROR": "association_error",
+    "UNEXPECTED_EXCEPTION": "unexpected_exception"
+  },
+  "summary": {
+    "total_records": 8,
+    "success_prepared": 1,
+    "failed_or_queued": 7,
+    "retryable_records": 2,
+    "manual_review_records": 5,
+    "validation_errors": 2,
+    "auth_errors": 1,
+    "rate_limit_errors": 1,
+    "transient_api_errors": 1,
+    "duplicate_conflicts": 1,
+    "association_errors": 1
+  },
+  "results": [
+    {
+      "index": 0,
+      "external_record_id": "D17-1001",
+      "status": "success_prepared",
+      "error_category": null,
+      "reconciliation_required": false,
+      "deal_dedupe_key": "meridianrail.co.uk|meridian rail - revops sync pilot|12000|GBP",
+      "lifecycle_recommendation": "lead",
+      "planned_operations": [
+        {
+          "step": 1,
+          "object": "contact",
+          "lookup_property": "email",
+          "lookup_value": "sarah.jones@meridianrail.co.uk",
+          "action": "search_or_upsert_contact"
+        },
+        {
+          "step": 2,
+          "object": "company",
+          "lookup_property": "domain",
+          "lookup_value": "meridianrail.co.uk",
+          "action": "search_or_upsert_company"
+        },
+        {
+          "step": 3,
+          "object": "deal",
+          "lookup_property": "ve_deal_dedupe_key",
+          "lookup_value": "meridianrail.co.uk|meridian rail - revops sync pilot|12000|GBP",
+          "action": "search_or_upsert_deal"
+        },
+        {
+          "step": 4,
+          "object": "association",
+          "action": "associate_contact_to_company"
+        },
+        {
+          "step": 5,
+          "object": "association",
+          "action": "associate_deal_to_company"
+        },
+        {
+          "step": 6,
+          "object": "association",
+          "action": "associate_deal_to_contact"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "external_record_id": "D17-1002",
+      "status": "failed_or_queued",
+      "error_category": "validation_error",
+      "reconciliation_required": true,
+      "queue_action": "manual_review",
+      "retry_plan": {
+        "retryable": false,
+        "attempt": 0,
+        "max_attempts": 0,
+        "strategy": "fix_record_then_retry"
+      },
+      "errors": [
+        "Missing required field: email"
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1002",
+        "email": "",
+        "company_domain": "noemail.example",
+        "company_name": "No Email Ltd",
+        "deal_name": "Broken Missing Email",
+        "amount": 2500,
+        "currency": "GBP",
+        "deal_stage": "qualifiedtobuy",
+        "pipeline": "default",
+        "simulate_api_status": 200,
+        "notes": "Broken record - missing email"
+      }
+    },
+    {
+      "index": 2,
+      "external_record_id": "D17-1003",
+      "status": "failed_or_queued",
+      "error_category": "validation_error",
+      "reconciliation_required": true,
+      "queue_action": "manual_review",
+      "retry_plan": {
+        "retryable": false,
+        "attempt": 0,
+        "max_attempts": 0,
+        "strategy": "fix_record_then_retry"
+      },
+      "errors": [
+        "Missing required field: company_domain"
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1003",
+        "email": "domain.missing@example.com",
+        "company_domain": "",
+        "company_name": "Missing Domain Ltd",
+        "deal_name": "Broken Missing Domain",
+        "amount": 3000,
+        "currency": "GBP",
+        "deal_stage": "qualifiedtobuy",
+        "pipeline": "default",
+        "simulate_api_status": 200,
+        "notes": "Broken record - missing company domain"
+      }
+    },
+    {
+      "index": 3,
+      "external_record_id": "D17-1004",
+      "simulated_status": 429,
+      "status": "failed_or_queued",
+      "error_category": "rate_limit_error",
+      "reconciliation_required": true,
+      "queue_action": "retry_after_backoff",
+      "retry_plan": {
+        "retryable": true,
+        "attempt": 1,
+        "max_attempts": 3,
+        "wait_seconds_before_next_attempt": 60,
+        "strategy": "retry_with_exponential_backoff_and_max_attempts"
+      },
+      "errors": [
+        "Rate limit response. Wait before retrying and reduce request burst size."
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1004",
+        "email": "rate.limit@railops.example",
+        "company_domain": "railops.example",
+        "company_name": "RailOps Example",
+        "deal_name": "Rate Limit Simulation",
+        "amount": 8000,
+        "currency": "GBP",
+        "deal_stage": "presentationscheduled",
+        "pipeline": "default",
+        "simulate_api_status": 429,
+        "retry_after_seconds": 60,
+        "notes": "Rate limit simulation"
+      }
+    },
+    {
+      "index": 4,
+      "external_record_id": "D17-1005",
+      "simulated_status": 401,
+      "status": "failed_or_queued",
+      "error_category": "auth_error",
+      "reconciliation_required": true,
+      "queue_action": "security_review",
+      "retry_plan": {
+        "retryable": false,
+        "attempt": 1,
+        "max_attempts": 0,
+        "wait_seconds_before_next_attempt": null,
+        "strategy": "do_not_retry_until_reviewed"
+      },
+      "errors": [
+        "Auth/scope failure. Review private app token, scopes and credential access."
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1005",
+        "email": "auth.failure@securecrm.example",
+        "company_domain": "securecrm.example",
+        "company_name": "SecureCRM Example",
+        "deal_name": "Auth Failure Simulation",
+        "amount": 15000,
+        "currency": "GBP",
+        "deal_stage": "contractsent",
+        "pipeline": "default",
+        "simulate_api_status": 401,
+        "notes": "Auth failure simulation"
+      }
+    },
+    {
+      "index": 5,
+      "external_record_id": "D17-1006",
+      "simulated_status": 503,
+      "status": "failed_or_queued",
+      "error_category": "transient_api_error",
+      "reconciliation_required": true,
+      "queue_action": "retry_later",
+      "retry_plan": {
+        "retryable": true,
+        "attempt": 1,
+        "max_attempts": 3,
+        "wait_seconds_before_next_attempt": 60,
+        "strategy": "retry_with_exponential_backoff_and_max_attempts"
+      },
+      "errors": [
+        "Transient server-style error. Retry with backoff and max attempt controls."
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1006",
+        "email": "server.error@industrialai.example",
+        "company_domain": "industrialai.example",
+        "company_name": "IndustrialAI Example",
+        "deal_name": "Transient Server Error Simulation",
+        "amount": 5500,
+        "currency": "GBP",
+        "deal_stage": "qualifiedtobuy",
+        "pipeline": "default",
+        "simulate_api_status": 503,
+        "notes": "Transient API failure simulation"
+      }
+    },
+    {
+      "index": 6,
+      "external_record_id": "D17-1007",
+      "duplicate_deal_in_batch": true,
+      "status": "failed_or_queued",
+      "error_category": "duplicate_conflict",
+      "reconciliation_required": true,
+      "queue_action": "dedupe_review",
+      "retry_plan": {
+        "retryable": false,
+        "attempt": 0,
+        "max_attempts": 0,
+        "strategy": "review_duplicate_before_retry"
+      },
+      "errors": [
+        "Duplicate deal dedupe key detected inside input batch"
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1007",
+        "email": "sarah.jones@meridianrail.co.uk",
+        "company_domain": "meridianrail.co.uk",
+        "company_name": "Meridian Rail Group",
+        "deal_name": "Meridian Rail - RevOps Sync Pilot",
+        "amount": 12000,
+        "currency": "GBP",
+        "deal_stage": "appointmentscheduled",
+        "pipeline": "default",
+        "simulate_api_status": 409,
+        "notes": "Duplicate conflict simulation"
+      }
+    },
+    {
+      "index": 7,
+      "external_record_id": "D17-1008",
+      "status": "failed_or_queued",
+      "error_category": "association_error",
+      "reconciliation_required": true,
+      "queue_action": "association_review",
+      "retry_plan": {
+        "retryable": false,
+        "attempt": 0,
+        "max_attempts": 0,
+        "strategy": "resolve_object_ids_then_retry_association"
+      },
+      "errors": [
+        "Association failed because one or more required object IDs were not available"
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1008",
+        "email": "assoc.error@brokenlinks.example",
+        "company_domain": "brokenlinks.example",
+        "company_name": "Broken Links Example",
+        "deal_name": "Association Error Simulation",
+        "amount": 4200,
+        "currency": "GBP",
+        "deal_stage": "qualifiedtobuy",
+        "pipeline": "default",
+        "simulate_api_status": 200,
+        "simulate_association_error": true,
+        "notes": "Association failure simulation"
+      }
+    }
+  ],
+  "retry_queue": [
+    {
+      "external_record_id": "D17-1002",
+      "error_category": "validation_error",
+      "queue_action": "manual_review",
+      "retry_plan": {
+        "retryable": false,
+        "attempt": 0,
+        "max_attempts": 0,
+        "strategy": "fix_record_then_retry"
+      },
+      "errors": [
+        "Missing required field: email"
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1002",
+        "email": "",
+        "company_domain": "noemail.example",
+        "company_name": "No Email Ltd",
+        "deal_name": "Broken Missing Email",
+        "amount": 2500,
+        "currency": "GBP",
+        "deal_stage": "qualifiedtobuy",
+        "pipeline": "default",
+        "simulate_api_status": 200,
+        "notes": "Broken record - missing email"
+      }
+    },
+    {
+      "external_record_id": "D17-1003",
+      "error_category": "validation_error",
+      "queue_action": "manual_review",
+      "retry_plan": {
+        "retryable": false,
+        "attempt": 0,
+        "max_attempts": 0,
+        "strategy": "fix_record_then_retry"
+      },
+      "errors": [
+        "Missing required field: company_domain"
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1003",
+        "email": "domain.missing@example.com",
+        "company_domain": "",
+        "company_name": "Missing Domain Ltd",
+        "deal_name": "Broken Missing Domain",
+        "amount": 3000,
+        "currency": "GBP",
+        "deal_stage": "qualifiedtobuy",
+        "pipeline": "default",
+        "simulate_api_status": 200,
+        "notes": "Broken record - missing company domain"
+      }
+    },
+    {
+      "external_record_id": "D17-1004",
+      "error_category": "rate_limit_error",
+      "queue_action": "retry_after_backoff",
+      "retry_plan": {
+        "retryable": true,
+        "attempt": 1,
+        "max_attempts": 3,
+        "wait_seconds_before_next_attempt": 60,
+        "strategy": "retry_with_exponential_backoff_and_max_attempts"
+      },
+      "errors": [
+        "Rate limit response. Wait before retrying and reduce request burst size."
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1004",
+        "email": "rate.limit@railops.example",
+        "company_domain": "railops.example",
+        "company_name": "RailOps Example",
+        "deal_name": "Rate Limit Simulation",
+        "amount": 8000,
+        "currency": "GBP",
+        "deal_stage": "presentationscheduled",
+        "pipeline": "default",
+        "simulate_api_status": 429,
+        "retry_after_seconds": 60,
+        "notes": "Rate limit simulation"
+      }
+    },
+    {
+      "external_record_id": "D17-1005",
+      "error_category": "auth_error",
+      "queue_action": "security_review",
+      "retry_plan": {
+        "retryable": false,
+        "attempt": 1,
+        "max_attempts": 0,
+        "wait_seconds_before_next_attempt": null,
+        "strategy": "do_not_retry_until_reviewed"
+      },
+      "errors": [
+        "Auth/scope failure. Review private app token, scopes and credential access."
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1005",
+        "email": "auth.failure@securecrm.example",
+        "company_domain": "securecrm.example",
+        "company_name": "SecureCRM Example",
+        "deal_name": "Auth Failure Simulation",
+        "amount": 15000,
+        "currency": "GBP",
+        "deal_stage": "contractsent",
+        "pipeline": "default",
+        "simulate_api_status": 401,
+        "notes": "Auth failure simulation"
+      }
+    },
+    {
+      "external_record_id": "D17-1006",
+      "error_category": "transient_api_error",
+      "queue_action": "retry_later",
+      "retry_plan": {
+        "retryable": true,
+        "attempt": 1,
+        "max_attempts": 3,
+        "wait_seconds_before_next_attempt": 60,
+        "strategy": "retry_with_exponential_backoff_and_max_attempts"
+      },
+      "errors": [
+        "Transient server-style error. Retry with backoff and max attempt controls."
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1006",
+        "email": "server.error@industrialai.example",
+        "company_domain": "industrialai.example",
+        "company_name": "IndustrialAI Example",
+        "deal_name": "Transient Server Error Simulation",
+        "amount": 5500,
+        "currency": "GBP",
+        "deal_stage": "qualifiedtobuy",
+        "pipeline": "default",
+        "simulate_api_status": 503,
+        "notes": "Transient API failure simulation"
+      }
+    },
+    {
+      "external_record_id": "D17-1007",
+      "error_category": "duplicate_conflict",
+      "queue_action": "dedupe_review",
+      "retry_plan": {
+        "retryable": false,
+        "attempt": 0,
+        "max_attempts": 0,
+        "strategy": "review_duplicate_before_retry"
+      },
+      "errors": [
+        "Duplicate deal dedupe key detected inside input batch"
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1007",
+        "email": "sarah.jones@meridianrail.co.uk",
+        "company_domain": "meridianrail.co.uk",
+        "company_name": "Meridian Rail Group",
+        "deal_name": "Meridian Rail - RevOps Sync Pilot",
+        "amount": 12000,
+        "currency": "GBP",
+        "deal_stage": "appointmentscheduled",
+        "pipeline": "default",
+        "simulate_api_status": 409,
+        "notes": "Duplicate conflict simulation"
+      }
+    },
+    {
+      "external_record_id": "D17-1008",
+      "error_category": "association_error",
+      "queue_action": "association_review",
+      "retry_plan": {
+        "retryable": false,
+        "attempt": 0,
+        "max_attempts": 0,
+        "strategy": "resolve_object_ids_then_retry_association"
+      },
+      "errors": [
+        "Association failed because one or more required object IDs were not available"
+      ],
+      "raw_record": {
+        "external_record_id": "D17-1008",
+        "email": "assoc.error@brokenlinks.example",
+        "company_domain": "brokenlinks.example",
+        "company_name": "Broken Links Example",
+        "deal_name": "Association Error Simulation",
+        "amount": 4200,
+        "currency": "GBP",
+        "deal_stage": "qualifiedtobuy",
+        "pipeline": "default",
+        "simulate_api_status": 200,
+        "simulate_association_error": true,
+        "notes": "Association failure simulation"
+      }
+    }
+  ]
+}

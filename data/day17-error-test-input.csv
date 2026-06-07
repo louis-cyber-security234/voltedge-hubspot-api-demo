@@ -1,0 +1,9 @@
+external_record_id,email,company_domain,company_name,deal_name,amount,currency,deal_stage,pipeline,simulate_api_status,notes
+D17-1001,sarah.jones@meridianrail.co.uk,meridianrail.co.uk,Meridian Rail Group,Meridian Rail - RevOps Sync Pilot,12000,GBP,appointmentscheduled,default,200,Clean record - should prepare success plan
+D17-1002,,noemail.example,No Email Ltd,Broken Missing Email,2500,GBP,qualifiedtobuy,default,200,Broken record - missing email
+D17-1003,domain.missing@example.com,,Missing Domain Ltd,Broken Missing Domain,3000,GBP,qualifiedtobuy,default,200,Broken record - missing company domain
+D17-1004,rate.limit@railops.example,railops.example,RailOps Example,Rate Limit Simulation,8000,GBP,presentationscheduled,default,429,Rate limit simulation
+D17-1005,auth.failure@securecrm.example,securecrm.example,SecureCRM Example,Auth Failure Simulation,15000,GBP,contractsent,default,401,Auth failure simulation
+D17-1006,server.error@industrialai.example,industrialai.example,IndustrialAI Example,Transient Server Error Simulation,5500,GBP,qualifiedtobuy,default,503,Transient API failure simulation
+D17-1007,sarah.jones@meridianrail.co.uk,meridianrail.co.uk,Meridian Rail Group,Meridian Rail - RevOps Sync Pilot,12000,GBP,appointmentscheduled,default,409,Duplicate conflict simulation
+D17-1008,assoc.error@brokenlinks.example,brokenlinks.example,Broken Links Example,Association Error Simulation,4200,GBP,qualifiedtobuy,default,200,Association failure simulation
