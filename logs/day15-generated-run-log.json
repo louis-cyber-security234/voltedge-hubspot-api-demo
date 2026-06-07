@@ -1,7 +1,7 @@
 {
   "run_name": "Day 15 - API Upsert Logic Demo",
-  "generated_at": "2026-06-07T08:34:30.675Z",
-  "input_file": "/mnt/data/day15_patch/data/day15-sample-input.json",
+  "generated_at": "2026-06-07T09:18:32.438Z",
+  "input_file": "/Users/louismoyo/Downloads/voltedge-revops-demo/data/day15-sample-input.json",
   "summary": {
     "total_records": 5,
     "ready_for_upsert": 3,

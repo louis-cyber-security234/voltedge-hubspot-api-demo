@@ -1,0 +1,60 @@
+[
+  {
+    "external_record_id": "VE-1001",
+    "email": "sarah.jones@meridianrail.co.uk",
+    "firstname": "Sarah",
+    "lastname": "Jones",
+    "jobtitle": "Operations Director",
+    "phone": "+44 20 0000 1001",
+    "company_name": "Meridian Rail Group",
+    "company_domain": "meridianrail.co.uk",
+    "industry": "Rail",
+    "lifecyclestage": "marketingqualifiedlead"
+  },
+  {
+    "external_record_id": "VE-1002",
+    "email": "david.chen@voltedge.example",
+    "firstname": "David",
+    "lastname": "Chen",
+    "jobtitle": "VP Revenue Operations",
+    "phone": "+1 415 000 1002",
+    "company_name": "VoltEdge Systems",
+    "company_domain": "voltedge.example",
+    "industry": "SaaS",
+    "lifecyclestage": "salesqualifiedlead"
+  },
+  {
+    "external_record_id": "VE-1003",
+    "email": "sarah.jones@meridianrail.co.uk",
+    "firstname": "Sarah",
+    "lastname": "Jones",
+    "jobtitle": "Operations Director - Updated",
+    "phone": "+44 20 0000 1001",
+    "company_name": "Meridian Rail Group",
+    "company_domain": "meridianrail.co.uk",
+    "industry": "Rail",
+    "lifecyclestage": "salesqualifiedlead"
+  },
+  {
+    "external_record_id": "VE-1004",
+    "email": "",
+    "firstname": "No",
+    "lastname": "Email",
+    "jobtitle": "Broken Record",
+    "company_name": "No Email Ltd",
+    "company_domain": "noemail.example",
+    "industry": "Testing",
+    "lifecyclestage": "lead"
+  },
+  {
+    "external_record_id": "VE-1005",
+    "email": "domain.missing@example.com",
+    "firstname": "Domain",
+    "lastname": "Missing",
+    "jobtitle": "Broken Record",
+    "company_name": "Missing Domain Ltd",
+    "company_domain": "",
+    "industry": "Testing",
+    "lifecyclestage": "lead"
+  }
+]
