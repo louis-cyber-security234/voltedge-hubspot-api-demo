@@ -1,0 +1,8 @@
+Email,First Name,Last Name,Lifecycle Stage,Country/Region,Number of Employees,VE Routing Rule,VE Assigned Team,VE SLA Hours,VE SLA Status,VE Stale Lead Flag,VE Routing Notes
+test.enterprise.uk@voltedge-demo.com,Test,Enterprise UK,Lead,United Kingdom,1500,,,,,,Routing workflow test - should become enterprise_priority / Enterprise AE / 1 hour SLA.
+test.uk.sdr@voltedge-demo.com,Test,UK SDR,Lead,United Kingdom,250,uk_territory,,,,,Routing workflow test - should route to UK SDR queue.
+test.us.mql.routing@voltedge-demo.com,Test,US MQL Routing,Marketing Qualified Lead,United States,500,us_territory,,,,,Routing workflow test - should route to US SDR queue.
+test.review.queue@voltedge-demo.com,Test,Review Queue,Lead,,,review_queue,,,,,Routing workflow test - incomplete data should route to review queue.
+test.mql.notification@voltedge-demo.com,Test,MQL Notification,Marketing Qualified Lead,United States,300,us_territory,,,,,MQL notification test contact.
+test.sla.task@voltedge-demo.com,Test,SLA Task,Lead,United Kingdom,200,uk_territory,,2,Pending,Not Stale,SLA task creation test contact.
+test.stale.review@voltedge-demo.com,Test,Stale Review,Lead,United Kingdom,100,review_queue,,,Pending,Needs Review,Stale lead review fallback workflow test contact.
